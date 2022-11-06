@@ -6,8 +6,9 @@ const socket = require("socket.io");
 const io = socket(server, {
 	cors: {
 		origin: "*",
+		transports: ["websocket", "polling"],
 	},
-	transports: ["websocket"],
+	allowEIO3: true,
 });
 const fetch = require("node-fetch");
 require("dotenv").config();
