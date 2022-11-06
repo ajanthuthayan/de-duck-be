@@ -13,6 +13,8 @@ require("dotenv").config();
 
 const users = {};
 
+const PORT = process.env.PORT || 8000;
+
 io.on("connection", (socket) => {
 	if (!users[socket.id]) {
 		users[socket.id] = socket.id;
@@ -37,4 +39,4 @@ io.on("connection", (socket) => {
 	});
 });
 
-server.listen(8000, () => console.log("Server is running on port 8000"));
+server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
