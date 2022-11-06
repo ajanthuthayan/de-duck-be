@@ -1,14 +1,14 @@
 const express = require("express");
 const http = require("http");
+// const cors = require("cors");
 const app = express();
+// app.use(cors({ origin: "https://de-duck-fe.vercel.app/" }));
 const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server, {
 	cors: {
 		origin: "*",
-		transports: ["websocket", "polling"],
 	},
-	allowEIO3: true,
 });
 const fetch = require("node-fetch");
 require("dotenv").config();
