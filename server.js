@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const app = express();
+app.use(express.json());
 const server = http.createServer(app);
 const socket = require("socket.io");
 const io = socket(server, {
@@ -40,53 +41,33 @@ io.on("connection", (socket) => {
 });
 
 app.post("/webhook", (req, res) => {
-	// const {
-	// 	id = 9,
-	// 	subject = "Test",
-	// 	author = "ajanth",
-	// 	description = "This is a test post",
-	// 	technology = "JavaScript",
-	// 	offer = 0,
-	// 	requestId,
-	// 	createdAt,
-	// } = req.body.record;
-
-	const DUMMY = {
-		id: 9,
-		subject: "Test",
-		author: "ajanth",
-		description: "This is a test post",
-		technology: "JavaScript",
-		offer: 0,
-	};
-
 	const message = {
 		username: "de-duck",
 		avatar_url: "https://i.imgur.com/4M34hi2.png",
 		embeds: [
 			{
-				title: DUMMY.subject,
-				description: DUMMY.description,
+				title: req.body.record.subject,
+				description: req.body.record.description,
 				color: 15258703,
 				fields: [
 					{
 						name: "Inquiry by",
-						value: DUMMY.author,
+						value: req.body.record.author,
 						inline: true,
 					},
 					{
 						name: "Price",
-						value: DUMMY.offer === 0 ? "FREE" : DUMMY.offer,
+						value: req.body.record.offer === 0 ? "FREE" : req.body.record.offer,
 						inline: true,
 					},
 					{
 						name: "Technology",
-						value: DUMMY.technology,
+						value: req.body.record.technology,
 						inline: true,
 					},
 					{
 						name: "Request",
-						value: `[Join](${process.env.FRONTEND_URL}/request/live/${DUMMY.id})`,
+						value: `[Join](${process.env.FRONTEND_URL}/request/live/${req.body.record.id})`,
 						inline: false,
 					},
 				],
@@ -99,7 +80,6 @@ app.post("/webhook", (req, res) => {
 			},
 		],
 	};
-
 	fetch(process.env.DISCORD_WEBHOOK_URL + "?wait=true", {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },
