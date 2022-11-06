@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 app.post("/webhook", (req, res) => {
 	const message = {
 		username: "de-duck",
-		avatar_url: "https://i.imgur.com/4M34hi2.png",
+		avatar_url: "https://i.postimg.cc/BnHrmRSH/Untitled.jpg",
 		embeds: [
 			{
 				title: req.body.record.subject,
@@ -51,19 +51,22 @@ app.post("/webhook", (req, res) => {
 				color: 15258703,
 				fields: [
 					{
-						name: "Inquiry by",
+						name: "Requested User",
 						value: req.body.record.author,
 						inline: true,
 					},
 					{
-						name: "Price",
-						value: req.body.record.offer === 0 ? "FREE" : req.body.record.offer,
+						name: "Offering Price",
+						value:
+							req.body.record.offer === 0
+								? "FREE"
+								: `$${req.body.record.offer.toFixed(2)}`,
 						inline: true,
 					},
 					{
 						name: "Technology",
 						value: req.body.record.technology,
-						inline: true,
+						inline: false,
 					},
 					{
 						name: "Request",
